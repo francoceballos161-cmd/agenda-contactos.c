@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h> // para comparar y manipular texto con strcmp, strcpy
 
+// Estructura que representa un contacto con nombre, telefono y email
 struct Contacto {
 	char nombre[50];
 	char telefono[20];
@@ -14,6 +15,15 @@ int main(){
 	int opcion = 0;
 	int i;
 	int encontrado = 0;
+	
+	// Cargar contactos guardados del archivo al iniciar el programa
+	FILE *archivo = fopen ("contactos.txt", "r");
+	if (archivo != NULL){
+		while (fscanf(archivo, "%s %s %s", agenda[cantidad].nombre, agenda[cantidad].telefono, agenda[cantidad].email) == 3){
+			cantidad++;
+		}
+	}
+	fclose(archivo);
 	
 	printf("----------------------------------------------------------------\n");	
 	printf("=== Bienvenido a la agenda, elija que opcion desea realizar! ===\n");
@@ -72,8 +82,8 @@ int main(){
 				scanf("%s", buscar);
 				encontrado = 0;
 				for (i = 0; i < cantidad; i++){
-					if (strcmp(agenda[i].nombre, buscar) == 0){
-						agenda[i] = agenda[cantidad - 1];
+					if (strcmp(agenda[i].nombre, buscar) == 0){ // strcmp devuelve 0 si los strings son iguales
+						agenda[i] = agenda[cantidad - 1]; // Pisar el contacto eliminado con el ultimo del array
 						cantidad --;
 						encontrado = 1;
 						printf ("Contacto: %s eliminado\n", agenda[i].nombre);
@@ -97,6 +107,16 @@ int main(){
 		printf("5. Salir\n");
 		printf("Elija una opcion (1-5): ");
 		scanf("%d", &opcion);
+	}
+	// Guardar todos los contactos en el archivo al salir
+	archivo = fopen ("contactos.txt", "w");
+	if (archivo != NULL){
+		for (i = 0; i < cantidad; i++){
+			fprintf(archivo, "%s %s %s\n", agenda[i].nombre, agenda[i].telefono, agenda[i].email);	
+		}
+		fclose(archivo);
+	} else {
+		printf("Error: no se pudo guardar el archivo.\n"); 
 	}
 	return 0;
 } 
