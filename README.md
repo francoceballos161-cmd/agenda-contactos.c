@@ -8,7 +8,9 @@ de Desarrollo de Software.
 - Agregar contactos (nombre, teléfono y email)
 - Mostrar todos los contactos
 - Buscar contacto por nombre
-
+- Eliminar contacto por nombre
+- Persistencia de datos en archivo contactos.txt
+  
 ## Conceptos aplicados
 - Structs para agrupar datos relacionados
 - Arrays de structs
